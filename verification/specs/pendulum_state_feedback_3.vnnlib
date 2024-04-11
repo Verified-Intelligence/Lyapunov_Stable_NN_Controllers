@@ -1,0 +1,36 @@
+; VNNLIB Property for the verification of Lyapunov condition within a level set.
+
+; Generated at Tue Feb 20 15:07:46 2024 on kerrigan by zhouxingshi
+; Generation command: 
+; /home/zhouxingshi/neural_lyapunov_training/neural_lyapunov_training/generate_vnnlib.py --lower_limit -12 -12 --upper_limit 12 12 --hole_size 0.001 --value_levelset 672 specs/pendulum_state_feedback --check_x_next
+
+; Input variables (states).
+(declare-const X_0 Real)
+(declare-const X_1 Real)
+
+; Output variables (Lyapunov condition, and Lyapunov function value).
+(declare-const Y_0 Real)
+(declare-const Y_1 Real)
+(declare-const Y_2 Real)
+(declare-const Y_3 Real)
+
+; Input constraints.
+
+; Input state 0.
+(assert (<= X_0 0.012000000104308128))
+(assert (>= X_0 -0.012000000104308128))
+
+; Input state 1.
+(assert (<= X_1 -0.012000000104308128))
+(assert (>= X_1 -12.0))
+
+; Verifying Lyapunov condition (output 0) holds (positive), and
+; Lyapunov function (output 1) is less than the level set value.
+(assert (or
+  (and (<= Y_0 -1e-06))
+  (and (<= Y_2 -12.000001))
+  (and (>= Y_2 12.000001))
+  (and (<= Y_3 -12.000001))
+  (and (>= Y_3 12.000001))
+))
+(assert (<= Y_1 672.0))

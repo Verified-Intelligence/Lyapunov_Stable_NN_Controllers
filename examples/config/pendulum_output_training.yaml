@@ -1,0 +1,53 @@
+defaults:
+  - user: pendulum_output_training_default
+  - train_template
+
+hydra:
+  run:
+    dir: ${user.run_dir}
+  sweep:
+    dir: ${user.run_dir}
+
+wandb_name: pendulum_output
+
+# Boolean to approximate LQR
+approximate_lqr: False
+
+pgd_verifier_steps: 300
+
+model:
+  lyapunov:
+    quadratic: True
+    hidden_widths: [16, 16, 8]
+  load_lyaloss: ${user.load_lyaloss}
+  kappa: 0.001
+  V_decrease_within_roa: True
+  limit_scale: [0.1, 0.2, 0.3, 0.4]
+  V_psd_form: "L1"
+  rho_multiplier: [2.0, 1.8, 1.6, 1.4]
+  u_max: 0.25
+
+train:
+  train_lyaloss: True
+  Vmin_x_pgd_path: ${user.Vmin_x_pgd_path}
+  hard_max: True
+  num_samples_per_boundary: 1024
+  learning_rate: 1e-3
+  lr_controller: 1e-4
+
+  batch_size: 1024
+  epochs: 100
+  pgd_steps: 50
+  Vmin_x_pgd_buffer_size: 8192
+  buffer_size: 32768
+  samples_per_iter: 4096
+  max_iter: [30, 8, 9, 5]
+  derivative_x_buffer_path: ${user.derivative_x_buffer_path}
+  lr_scheduler: false
+
+loss:
+  candidate_scale: 0.6
+  candidate_roa_states_weight: [1e-4, 1e-4, 1e-5, 1e-5]
+  l1_reg: [1e-4, 1e-4, 1e-5, 1e-5]
+  observer_ratio: [1e-4, 1e-4, 1e-5, 1e-5]
+  always_candidate_roa_regulizer: True

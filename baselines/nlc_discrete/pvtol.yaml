@@ -1,0 +1,31 @@
+# Configuration file for running the complete verification
+
+general:
+  conv_mode: matrix
+  enable_incomplete_verification: false
+  root_path: ${CONFIG_PATH}  # Folder containing the csv and vnnlib files for verification.
+  csv_name: specs/pvtol_instances.csv
+model:
+  name: >-
+    Customized("pvtol.py", "Pvtol")
+  input_shape: [-1, 6]
+  path: ${CONFIG_PATH}/models/pvtol.pth
+specification:
+  rhs_offset: 0
+attack:
+  pgd_order: skip
+solver:
+  batch_size: 200000
+  min_batch_size_ratio: 0.
+  bound_prop_method: crown
+bab:
+  override_timeout: 100000000
+  branching:
+    method: sb
+    input_split:
+      enable: True
+      adv_check: -1
+      sb_margin_weight: 0.1
+      ibp_enhancement: True
+      compare_with_old_bounds: True
+      sb_coeff_thresh: 1.0

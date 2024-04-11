@@ -1,0 +1,33 @@
+# Configuration file for running the complete verification
+
+general:
+  conv_mode: matrix
+  enable_incomplete_verification: false
+  root_path: ${CONFIG_PATH}  # Folder containing the csv and vnnlib files for verification.
+  csv_name: specs/cartpole.csv
+model:
+  name: >-
+    Customized("cartpole.py", "Cartpole")
+  input_shape: [-1, 4]
+  path: ${CONFIG_PATH}/models/cartpole.pth
+data:
+  dataset: Customized("../../neural_lyapunov_training/models.py", "box_data", lower_limit=[-1, -1, -1, -1], upper_limit=[1, 1, 1, 1], ndim=4, scale=1.0, hole_size=1.0)
+specification:
+  rhs_offset: 0
+attack:
+  pgd_order: skip
+solver:
+  batch_size: 100000
+  min_batch_size_ratio: 0.
+  bound_prop_method: crown
+bab:
+  override_timeout: 100000000
+  branching:
+    method: sb
+    input_split:
+      enable: True
+      adv_check: -1
+      sb_margin_weight: 0.1
+      # ibp_enhancement: True
+      compare_with_old_bounds: True
+      sb_coeff_thresh: 1.0

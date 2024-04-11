@@ -1,0 +1,13 @@
+.ipynb_checkpoints
+*.pyc
+__pycache__
+*.swp
+wandb/*
+data/*
+*.compiled
+venv/*
+output/*
+models/lyaloss*
+*.egg-info
+verification/specs/bisect*.*
+verification/out*

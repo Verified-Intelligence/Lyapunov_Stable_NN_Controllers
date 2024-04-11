@@ -1,0 +1,8 @@
+run_dir: ./output/${now:%Y-%m-%d}/%{now:%H-%M-%S}
+
+wandb_enabled: False
+wandb_entity: ??? 
+
+load_lyaloss: examples/data/quadrotor2d/lyaloss_init.pth
+Vmin_x_pgd_path: examples/data/quadrotor2d/Vmin_x_pgd_init.pth
+derivative_x_buffer_path: examples/data/quadrotor2d/x_pgd_verifier_init.pth

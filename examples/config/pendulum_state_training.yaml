@@ -1,0 +1,72 @@
+defaults:
+  - user: pendulum_state_training_default
+  - train_template
+
+hydra:
+  run:
+    dir: ${user.run_dir}
+  sweep:
+    dir: ${user.run_dir}
+
+wandb_name: pendulum
+
+# Boolean to approximate LQR
+approximate_lqr: False
+
+pgd_verifier_steps: 300
+
+model:
+  lyapunov:
+    quadratic: False
+    hidden_widths: [16, 16, 8]
+  load_lyaloss: ${user.load_lyaloss}
+  kappa: 0.01
+  V_decrease_within_roa: True
+  limit_scale: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+  V_psd_form: "L1"
+  rho_multiplier: 1.0
+  limit: [12.0, 12]
+  velocity_integration: "ExplicitEuler"
+  position_integration: "ExplicitEuler"
+  dt: 0.05
+  controller_nlayer: 4
+  controller_hidden_dim: 8
+  controller_path: examples/data/pendulum/state_feedback/controller_init.pth
+  u_max: 6
+
+train:
+  train_lyaloss: True
+  Vmin_x_pgd_path: ${user.Vmin_x_pgd_path}
+  hard_max: True
+  num_samples_per_boundary: 1024
+
+  batch_size: 1024
+  epochs: 100
+  pgd_steps: 150
+  Vmin_x_pgd_buffer_size: 65536
+  buffer_size: 131072
+  samples_per_iter: 16384
+  max_iter: 30
+  derivative_x_buffer_path: ${user.derivative_x_buffer_path}
+
+loss:
+  candidate_scale: 1.
+  candidate_roa_states_weight: 0
+  l1_reg: 0
+  candidate_roa_states:
+    - [-5.0, 9]
+    - [-5.0, 8]
+    - [-5.0, 7]
+    - [-6.0, 7]
+    - [-3, -2.]
+    - [-3, -3.]
+    - [-3, -4.]
+    - [-3, -5.]
+    - [-3, -6.]
+    - [-4, -5.]
+    - [5.0, -9]
+    - [5.0, -8]
+    - [5.0, -7]
+    - [6.0, -7]
+    - [3., 6.]
+  always_candidate_roa_regulizer: False

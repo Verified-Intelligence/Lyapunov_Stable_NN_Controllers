@@ -1,0 +1,52 @@
+; VNNLIB Property for the verification of Lyapunov condition within a level set.
+
+; Generated at Sat Apr  6 03:04:56 2024 on kerrigan by zhouxingshi
+; Generation command: 
+; /home/zhouxingshi/neural_lyapunov_training/neural_lyapunov_training/generate_vnnlib.py --lower_limit -2.19911486 -2.19911486 -0.54977871 -0.54977871 --upper_limit 2.19911486 2.19911486 0.54977871 0.54977871 --hole_size 0.001 --value_levelset 0.07 specs/pendulum_output_feedback
+
+; Input variables (states).
+(declare-const X_0 Real)
+(declare-const X_1 Real)
+(declare-const X_2 Real)
+(declare-const X_3 Real)
+
+; Output variables (Lyapunov condition, and Lyapunov function value).
+(declare-const Y_0 Real)
+(declare-const Y_1 Real)
+(declare-const Y_2 Real)
+(declare-const Y_3 Real)
+(declare-const Y_4 Real)
+(declare-const Y_5 Real)
+
+; Input constraints.
+
+; Input state 0.
+(assert (<= X_0 0.0021991149988025427))
+(assert (>= X_0 -0.0021991149988025427))
+
+; Input state 1.
+(assert (<= X_1 0.0021991149988025427))
+(assert (>= X_1 -0.0021991149988025427))
+
+; Input state 2.
+(assert (<= X_2 0.0005497787497006357))
+(assert (>= X_2 -0.0005497787497006357))
+
+; Input state 3.
+(assert (<= X_3 -0.0005497787497006357))
+(assert (>= X_3 -0.5497786998748779))
+
+; Verifying Lyapunov condition (output 0) holds (positive), and
+; Lyapunov function (output 1) is less than the level set value.
+(assert (or
+  (and (<= Y_0 -1e-06))
+  (and (<= Y_2 -2.19911586))
+  (and (>= Y_2 2.19911586))
+  (and (<= Y_3 -2.19911586))
+  (and (>= Y_3 2.19911586))
+  (and (<= Y_4 -0.54977971))
+  (and (>= Y_4 0.54977971))
+  (and (<= Y_5 -0.54977971))
+  (and (>= Y_5 0.54977971))
+))
+(assert (<= Y_1 0.07))

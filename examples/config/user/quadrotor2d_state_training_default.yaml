@@ -1,0 +1,8 @@
+run_dir: ./output/quadrotor2d_state/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+wandb_enabled: False
+wandb_entity: ??? 
+
+load_lyaloss: null 
+Vmin_x_pgd_path: null
+derivative_x_buffer_path: null

@@ -1,0 +1,84 @@
+; VNNLIB Property for the verification of Lyapunov condition within a level set.
+
+; Generated at Fri Apr  5 13:55:55 2024 on kerrigan by zhouxingshi
+; Generation command: 
+; /home/zhouxingshi/neural_lyapunov_training/neural_lyapunov_training/generate_vnnlib.py --lower_limit -0.1 -0.6283185307179586 -0.2 -0.6283185307179586 -0.05 -0.3141592653589793 -0.1 -0.3141592653589793 --upper_limit 0.1 0.6283185307179586 0.2 0.6283185307179586 0.05 0.3141592653589793 0.1 0.3141592653589793 --hole_size 0.001 --value_levelset 0.045 specs/quadrotor2d_output_feedback -t 1e-6 --check_x_next
+
+; Input variables (states).
+(declare-const X_0 Real)
+(declare-const X_1 Real)
+(declare-const X_2 Real)
+(declare-const X_3 Real)
+(declare-const X_4 Real)
+(declare-const X_5 Real)
+(declare-const X_6 Real)
+(declare-const X_7 Real)
+
+; Output variables (Lyapunov condition, and Lyapunov function value).
+(declare-const Y_0 Real)
+(declare-const Y_1 Real)
+(declare-const Y_2 Real)
+(declare-const Y_3 Real)
+(declare-const Y_4 Real)
+(declare-const Y_5 Real)
+(declare-const Y_6 Real)
+(declare-const Y_7 Real)
+(declare-const Y_8 Real)
+(declare-const Y_9 Real)
+
+; Input constraints.
+
+; Input state 0.
+(assert (<= X_0 0.00010000000474974513))
+(assert (>= X_0 -0.00010000000474974513))
+
+; Input state 1.
+(assert (<= X_1 0.0006283185794018209))
+(assert (>= X_1 -0.0006283185794018209))
+
+; Input state 2.
+(assert (<= X_2 0.00020000000949949026))
+(assert (>= X_2 -0.00020000000949949026))
+
+; Input state 3.
+(assert (<= X_3 0.0006283185794018209))
+(assert (>= X_3 -0.0006283185794018209))
+
+; Input state 4.
+(assert (<= X_4 0.05000000074505806))
+(assert (>= X_4 5.0000002374872565e-05))
+
+; Input state 5.
+(assert (<= X_5 0.3141592741012573))
+(assert (>= X_5 -0.3141592741012573))
+
+; Input state 6.
+(assert (<= X_6 0.10000000149011612))
+(assert (>= X_6 -0.10000000149011612))
+
+; Input state 7.
+(assert (<= X_7 0.3141592741012573))
+(assert (>= X_7 -0.3141592741012573))
+
+; Verifying Lyapunov condition (output 0) holds (positive), and
+; Lyapunov function (output 1) is less than the level set value.
+(assert (or
+  (and (<= Y_0 -1e-06))
+  (and (<= Y_2 -0.100001))
+  (and (>= Y_2 0.100001))
+  (and (<= Y_3 -0.6283195307179587))
+  (and (>= Y_3 0.6283195307179587))
+  (and (<= Y_4 -0.200001))
+  (and (>= Y_4 0.200001))
+  (and (<= Y_5 -0.6283195307179587))
+  (and (>= Y_5 0.6283195307179587))
+  (and (<= Y_6 -0.050001000000000004))
+  (and (>= Y_6 0.050001000000000004))
+  (and (<= Y_7 -0.3141602653589793))
+  (and (>= Y_7 0.3141602653589793))
+  (and (<= Y_8 -0.100001))
+  (and (>= Y_8 0.100001))
+  (and (<= Y_9 -0.3141602653589793))
+  (and (>= Y_9 0.3141602653589793))
+))
+(assert (<= Y_1 0.045))

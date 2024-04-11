@@ -1,0 +1,33 @@
+general:
+  conv_mode: matrix
+  enable_incomplete_verification: false
+  root_path: ${CONFIG_PATH}
+  csv_name: specs/pendulum_output_feedback_small_torque.csv
+model:
+  name: >-
+    Customized("../neural_lyapunov_training/models.py", "create_pendulum_output_feedback_model",
+    lyapunov_func="lyapunov.NeuralNetworkQuadraticLyapunov",
+    lyapunov_parameters={"R_rows": 4, "eps": 0.01},
+    controller_parameters={"nlayer": 4, "hidden_dim": 8, "clip_output":"clamp", "u_lo": torch.tensor([-0.25]), "u_up": torch.tensor([0.25])},
+    observer_parameters={"fc_hidden_dim":[8, 8]},
+    loss_parameters={"kappa": 0.0002},
+    loss_func="lyapunov.LyapunovDerivativeDOFLossWithVBox")
+  path: ${CONFIG_PATH}/../models/pendulum_output_feedback_small_torque.pth
+  input_shape: [-1, 4]
+attack:
+  pgd_order: skip
+solver:
+  batch_size: 2000000
+  min_batch_size_ratio: 0.
+  bound_prop_method: crown
+bab:
+  decision_thresh: -1.e-6
+  override_timeout: 100000000
+  branching:
+    method: sb
+    input_split:
+      enable: True
+      ibp_enhancement: True
+      compare_with_old_bounds: True
+      adv_check: -1
+      sb_coeff_thresh: 0.001

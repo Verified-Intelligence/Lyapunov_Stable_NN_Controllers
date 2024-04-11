@@ -1,0 +1,47 @@
+defaults:
+  - user: quadrotor2d_output_training_default
+  - train_template
+
+hydra:
+  run:
+    dir: ${user.run_dir}
+  sweep:
+    dir: ${user.run_dir}
+
+wandb_name: quadrotor2d_output
+
+model:
+  load_lyaloss: ${user.load_lyaloss}
+  save_lyaloss: true
+  limit_scale: 0.1
+  kappa: 0.04
+  V_decrease_within_roa: true
+  rho_multiplier: 1.5
+
+train:
+  train_lyaloss: True
+  hard_max: True
+  # Number of samples on the boundary for obtaining V_min using pgd attack.
+  num_samples_per_boundary: 512
+  lr_scheduler: False
+  max_iter: 20
+  learning_rate: 0.001
+  lr_controller: 0.0001
+  pgd_steps: 50
+  buffer_size: 65536
+  batch_size: 1024
+  epochs: 100
+  samples_per_iter: 4096
+
+loss:
+  ibp_ratio_derivative: 0.0
+  sample_ratio_derivative: 1.0
+  ibp_ratio_positivity: 0.0
+  sample_ratio_positivity: 0.0
+  Vmin_x_boundary_weight: 0.0
+  Vmax_x_boundary_weight: 0.0
+  l1_reg: 0.0009
+  candidate_roa_states_weight: 0.0001
+  observer_ratio: 0.0001
+  candidate_scale: 2.0
+  always_candidate_roa_regulizer: True

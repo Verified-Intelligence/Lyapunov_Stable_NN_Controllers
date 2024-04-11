@@ -1,0 +1,37 @@
+general:
+  conv_mode: matrix
+  enable_incomplete_verification: false
+  root_path: ${CONFIG_PATH}
+  csv_name: specs/pendulum_state_feedback_small_torque.csv
+model:
+  name: >-
+    Customized("../neural_lyapunov_training/models.py", "create_pendulum_model_state_feedback",
+    lyapunov_parameters={"hidden_widths": [16,16,8], "R_rows": 3, "absolute_output": True, "eps": 0.01, "activation": torch.nn.LeakyReLU, "V_psd_form": "L1"},
+    controller_parameters={"nlayer": 4, "hidden_dim": 8, "clip_output":"clamp", "u_lo": torch.tensor([-0.75]), "u_up": torch.tensor([0.75])},
+    loss_parameters={"kappa": 0.001},
+    loss_func="lyapunov.LyapunovDerivativeSimpleLossWithVBox")
+  path: ${CONFIG_PATH}/../models/pendulum_state_feedback_small_torque.pth
+  input_shape: [-1, 2]
+data:
+  # Only used for computing the level set, not the final verification which uses the CSV file.
+  # Use the box_data() loader in "lyapunov_models.py".
+  # Scale is the factor of tbe verification box. Set scale = 1.0 by default. Reduce scale to make the problem easier.
+  # hole_size must be 1.0 here, since we want to find the minimum on the boundary.
+  dataset: Customized("models.py", "box_data", lower_limit=[-12, -12], upper_limit=[12, 12], ndim=2, scale=1.0, hole_size=1.0)
+attack:
+  pgd_order: skip
+solver:
+  batch_size: 500000
+  min_batch_size_ratio: 0.
+  bound_prop_method: crown
+bab:
+  override_timeout: 100000000
+  decision_thresh: -1.e-6  # Tolerance. Must not be exact zero.
+  branching:
+    method: sb  # Can be "naive" or "sb". "sb" is usually better.
+    input_split:
+      enable: True
+      ibp_enhancement: True
+      compare_with_old_bounds: True
+      adv_check: -1
+      sb_coeff_thresh: 0.001  # Hyperparameter for "sb". Sometimes larger values like 0.01, 0.1 work better.

@@ -1,0 +1,23 @@
+(declare-const X_0 Real)
+(declare-const X_1 Real)
+(declare-const Y_0 Real)
+(declare-const Y_1 Real)
+(declare-const Y_2 Real)
+(declare-const Y_3 Real)
+(declare-const Y_4 Real)
+
+(assert (>= X_0 -12.0))
+(assert (<= X_0 12.0))
+(assert (>= X_1 -12.0))
+(assert (<= X_1 12.0))
+
+(assert (or
+  (and (<= Y_0 -1e-8))
+  (and (>= Y_1 -1e-5))
+  (and (<= Y_3 -12.00001))
+  (and (>= Y_3 12.00001))
+  (and (<= Y_4 -12.00001))
+  (and (>= Y_4 12.00001))
+))
+(assert (>= Y_2 1e-8))
+(assert (<= Y_0 25.58))

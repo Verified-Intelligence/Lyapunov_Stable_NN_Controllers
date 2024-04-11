@@ -1,0 +1,70 @@
+seed: 1234
+
+model:
+  load_lyaloss: null
+  save_lyaloss: True
+  # Scaling of state box
+  limit_scale: 0.1
+  # Lyapunov exponential decay rate.
+  kappa: 0.1
+  # Only requres V to decrease within the certified ROA (the sub-level set)
+  V_decrease_within_roa: False
+  # V_psd part form, L1 or quadratic
+  V_psd_form: "L1"
+
+train:
+  # Train Lyapunov, controller and (maybe) observer
+  train_lyaloss: False
+  wandb:
+    enabled: ${user.wandb_enabled}
+    project: neural_lyapunov_training
+    name: ${now:%Y.%m.%d-%H.%M.%S}_${wandb_name}
+    dir: ${user.run_dir}
+    entity: ${user.wandb_entity}
+
+  # Enable learning rate scheduler.
+  lr_scheduler: False
+  # Number of outermost iterations in training
+  max_iter: 100
+  # learning rate
+  learning_rate: 1e-3
+  # learning rate for the controller
+  lr_controller: 1e-3
+  # Number of steps in pgd attack
+  pgd_steps: 50
+  # Size of the state buffer
+  buffer_size: 10000
+  # Size of each batch
+  batch_size: 100
+  # Num epochs
+  epochs: 40
+  # Number of samples per PGD attack
+  samples_per_iter: 100
+  # Size of Vmin_x_pgd_buffer_size
+  Vmin_x_pgd_buffer_size: 500000
+  # Path to load a dataset of x as potential adversarial states for the derivative condition.
+  derivative_x_buffer_path: null
+  # Path to load a dataset of x that potentially minimizes V(x) on the boundary.
+  Vmin_x_pgd_path: null
+  # Update the candidate states min V(x) on the boundary after every epoch.
+  update_Vmin_boundary_per_epoch: False
+
+loss:
+  # Ratio of IBP loss
+  ibp_ratio_derivative: 0
+  # Ratio of sample loss
+  sample_ratio_derivative: 1
+  # Ratio of IBP loss.
+  ibp_ratio_positivity: 0
+  # Ratio of sample positivity loss.
+  sample_ratio_positivity: 0
+  # Weight for the regulizer min V(x) on boundary
+  Vmin_x_boundary_weight: 0
+  # Weight for the regulizer max V(x) on boundary
+  Vmax_x_boundary_weight: 0
+  # Weight for L1norm(θ) in the loss.
+  l1_reg: 1e-3
+  # weight for candidate states in ROA.
+  candidate_roa_states_weight: 0 
+
+

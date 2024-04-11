@@ -1,0 +1,40 @@
+general:
+  conv_mode: matrix
+  enable_incomplete_verification: false
+  root_path: ${CONFIG_PATH}  # Folder containing the csv and vnnlib files for verification.
+  csv_name: specs/pvtol_state_feedback.csv
+model:
+  name: >-
+    Customized("../neural_lyapunov_training/models.py", "create_pvtol_model",
+    lyapunov_func="lyapunov.NeuralNetworkQuadraticLyapunov",
+    lyapunov_parameters={"R_rows": 6, "eps": 0.01},
+    controller_parameters={"nlayer": 2, "hidden_dim": 8, "clip_output":"clamp",
+    "u_lo": torch.tensor([0, 0]), "u_up": torch.tensor([39.2, 39.2])},
+    loss_parameters={"kappa": 0},
+    loss_func="lyapunov.LyapunovDerivativeLossWithV")
+  path: ${CONFIG_PATH}/../models/pvtol_state_feedback.pth
+  optimize_graph: Customized("neural_lyapunov_training/optimize_graph.py", "optimize_graph")
+  input_shape: [-1, 6]
+data:
+  # Only used for computing the level set, not the final verification which uses the CSV file.
+  # Use the box_data() loader in "lyapunov_models.py".
+  # Scale is the factor of tbe verification box. Set scale = 1.0 by default. Reduce scale to make the problem easier.
+  # hole_size must be 1.0 here, since we want to find the minimum on the boundary.
+  dataset: Customized("../neural_lyapunov_training/models.py", "box_data", lower_limit=[-1,-1,-1,-1,-1,-1], upper_limit=[1,1,1,1,1,1], ndim=6, scale=1.0, hole_size=1.0)
+attack:
+  pgd_order: skip
+solver:
+  batch_size: 3000000
+  min_batch_size_ratio: 0.
+  bound_prop_method: crown
+bab:
+  override_timeout: 100000000
+  branching:
+    method: sb
+    input_split:
+      enable: True
+      adv_check: -1
+      sb_margin_weight: 0.1
+      ibp_enhancement: True
+      compare_with_old_bounds: True
+      sb_coeff_thresh: 1.0
