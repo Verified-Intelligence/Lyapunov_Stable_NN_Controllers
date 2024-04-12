@@ -114,6 +114,8 @@ Before the end of the training procedure, the program will first test the traine
 rho =  0.12872669100761414
 ```
 
+If PGD attacks can still find counterexamples after training, you should set `cfg.train.train_lyaloss = False` and decrease the last entry of `cfg.model.rho_multiplier` until PGD attack can no longer find counterexamples to obtain a more accurate $\hat \rho_{\text{max}}$.
+
 ## Preparing Specifications for Verification
 
 This section is for the stability verification of new models (e.g., controllers, observers, and/or Lyapunov functions trained from scratch). If you use the pre-trained models described [above](#verification), these instructions are not needed since we already provided specifications in this repo.
