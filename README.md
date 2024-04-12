@@ -30,7 +30,7 @@ conda activate lnc
 pip install -r requirements.txt
 ```
 
-We use [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA.git) for verification during training, and [alpha-beta-CROWN](https://github.com/Verified-Intelligence/alpha-beta-CROWN.git) for complete verification after the models are trained. To install both of them, run:
+We use [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA.git) and [alpha-beta-CROWN](https://github.com/Verified-Intelligence/alpha-beta-CROWN.git) for verification. To install both of them, run:
 ```bash
 git clone --recursive https://github.com/Verified-Intelligence/alpha-beta-CROWN.git
 (cd alpha-beta-CROWN/auto_LiRPA && pip install -e .)
@@ -73,6 +73,11 @@ safe (total 8), index: [0, 1, 2, 3, 4, 5, 6, 7]
 It shows that the 8 examples (sub-regions for verification) are all verified
 and no example is falsified or timeout. Therefore, the verification fully succeeded.
 
+Our verification configurations have been tested on a GPU with 48GB memory.
+If you are using a GPU with less memory, you may decrease the batch size
+of verification by modifying the `batch_size` item in the configuration files
+or passing an argument `--batch_size BATCH_SIZE`,
+until it fits into the GPU memory.
 
 ## Training
 
@@ -108,7 +113,6 @@ Before the end of the training procedure, the program will first test the traine
 [2024-04-11 00:42:36,757][__main__][INFO] - PGD verifier finds counter examples? False
 rho =  0.12872669100761414
 ```
-If PGD attacks can still find counterexamples after training, you should set `cfg.train.train_lyaloss = False` and decrease the last entry of `cfg.model.rho_multiplier` until PGD attack can no longer find counterexamples to obtain a more accurate $\hat \rho_{\text{max}}$.
 
 ## Preparing Specifications for Verification
 
@@ -122,7 +126,7 @@ We can use bisection to find the largest $\rho$ that satisfies the verification 
 We use the script `neural_lyapunov_training/bisect.py` for automatic bisection.
 
 We need to specify the region for verification using `--lower_limit`, `--upper_limit`, and `--hole_size`.
-The `--lower_limit` and `--upper_limit` define the region of interests $\mathcal{B}$ (which is problem specific; see Table 3 in the Appendix of our paper). The `--hole_size` excludes a very small region (default 0.1%) around the origin, which the verifier may have numerical issues with since the Lyapunov function values are very close to 0. 
+The `--lower_limit` and `--upper_limit` define the region of interests $\mathcal{B}$ (which is problem specific; see Table 3 in the Appendix of our paper). The `--hole_size` excludes a very small region (default 0.1%) around the origin, which the verifier may have numerical issues with since the Lyapunov function values are very close to 0.
 
 We provide an initial $\rho$ value by `--init_rho`
 and specify the precision for the bisection by `--rho_eps`.
