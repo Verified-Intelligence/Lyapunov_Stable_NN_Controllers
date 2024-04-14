@@ -7,6 +7,11 @@ Our work studies neural network controllers and observers with provable Lyapunov
 * Our method **does not rely on expensive solvers** such as MIP, SMT, SDP, or SOS in both the training and verification stages.
 * For the first time in literature, we synthesize and formally verify **neural-network controllers and observers** (output-feedback) together with Lyapunov functions for **general nonlinear** dynamical systems and observation functions.
 
+More details can be found in **our paper:**
+
+*Lujie Yang\*, Hongkai Dai\*, Zhouxing Shi, Cho-Jui Hsieh, Russ Tedrake, and Huan Zhang*
+"[Lyapunov-stable Neural Control for State and Output Feedback: A Novel Formulation for Efficient Synthesis and Verification](https://arxiv.org/pdf/2404.07956.pdf)" (\*Equal contribution)
+
 ## Examples
 
 We evaluate our training and verification method on several state-feedback and output-feedback systems with nonlinear dynamics.
