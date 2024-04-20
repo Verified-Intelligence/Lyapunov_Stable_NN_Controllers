@@ -4,7 +4,7 @@ Our work studies neural network controllers and observers with provable Lyapunov
 
 * We propose a novel formulation for stability verification that **theoretically defines a larger verifiable region-of-attraction** (ROA) than shown in the literature.
 * We propose a **new training framework** for learning neural network (NN) controllers/observers together with Lyapunov certificates using fast empirical falsification and strategic regularization.
-* Our method **does not rely on expensive solvers** such as MIP, SMT, SDP, or SOS in both the training and verification stages.
+* Our method **does not rely on expensive solvers** such as MIP, SMT, or SDP in both the training and verification stages.
 * For the first time in literature, we synthesize and formally verify **neural-network controllers and observers** (output-feedback) together with Lyapunov functions for **general nonlinear** dynamical systems and observation functions.
 
 More details can be found in **our paper:**
