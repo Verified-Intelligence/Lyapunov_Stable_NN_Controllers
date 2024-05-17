@@ -485,7 +485,7 @@ def create_output_feedback_model(
         **lyapunov_parameters,
     )
     observer = eval(observer_func)(
-        nx, ny, dynamics, h, torch.zeros(1, ny), observer_parameters["fc_hidden_dim"]
+        nx, ny, dynamics, h, torch.zeros(ny), observer_parameters["fc_hidden_dim"]
     )
     loss = eval(loss_func)(
         dynamics, observer, controller, lyapunov_nn, **loss_parameters

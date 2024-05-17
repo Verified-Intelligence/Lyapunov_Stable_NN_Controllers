@@ -192,11 +192,10 @@ class NeuralNetworkLuenbergerObserver(nn.Module):
 
     def forward(self, z, u, y):
         batch_size = z.shape[0]
-        K = torch.ones((batch_size, 1), device=self.zero_obs_error.device)
         z_nominal = self.dynamics(z, u)
         obs_error = y - self.h(z)
         Le = self.fc_net(torch.cat((z, obs_error), 1))
-        L0 = self.fc_net(torch.cat((z, (K * self.zero_obs_error).to(z.device)), 1))
+        L0 = self.fc_net(torch.cat((z, obs_error * 0), 1))
         unclipped_z = z_nominal + Le - L0
         return unclipped_z
 
