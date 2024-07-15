@@ -1,4 +1,4 @@
-# Lyapunov-stable Neural Control for State and Output Feedback: A Novel Formulation for Efficient Synthesis and Verification
+# Lyapunov-stable Neural Control for State and Output Feedback: A Novel Formulation
 
 Our work studies neural network controllers and observers with provable Lyapunov stability guarantees. Due to the complexity of neural networks and nonlinear system dynamics, it is often challenging to obtain formal stability guarantees for learning-enabled systems. Our work tackles this challenge with a few key contributions:
 
@@ -10,7 +10,7 @@ Our work studies neural network controllers and observers with provable Lyapunov
 More details can be found in **our paper:**
 
 *Lujie Yang\*, Hongkai Dai\*, Zhouxing Shi, Cho-Jui Hsieh, Russ Tedrake, and Huan Zhang*
-"[Lyapunov-stable Neural Control for State and Output Feedback: A Novel Formulation for Efficient Synthesis and Verification](https://arxiv.org/pdf/2404.07956.pdf)" (\*Equal contribution)
+"[Lyapunov-stable Neural Control for State and Output Feedback: A Novel Formulation](https://arxiv.org/pdf/2404.07956.pdf)" (\*Equal contribution)
 
 ## Examples
 
